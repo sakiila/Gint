@@ -7,6 +7,7 @@ import (
 
 func main() {
 	r := gint.New()
+	r.Use(gint.Logger())
 	r.GET("/", func(c *gint.Context) {
 		c.HTML(http.StatusOK, "<h1>Index Home</h1>")
 	})
