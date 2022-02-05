@@ -21,6 +21,7 @@ func FormatAsDate(t time.Time) string {
 func main() {
 	r := gint.New()
 	r.Use(gint.Logger())
+	r.Use(gint.Recovery())
 	r.SetFuncMap(template.FuncMap{
 		"FormatAsDate": FormatAsDate,
 	})
@@ -38,6 +39,12 @@ func main() {
 			"title":  "gee",
 			"stuArr": [2]*student{stu1, stu2},
 		})
+	})
+
+	// index out of range for testing Recovery()
+	r.GET("/panic", func(c *gint.Context) {
+		names := []string{"gint"}
+		c.String(http.StatusOK, names[10])
 	})
 
 	r.GET("/date", func(c *gint.Context) {
